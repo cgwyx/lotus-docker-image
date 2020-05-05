@@ -1,6 +1,17 @@
-FROM ubuntu:18.04
+FROM docker.io/nvidia/opencl:runtime-ubuntu18.04
 
-RUN mkdir -p /storage/lotuswork/lotusstorage \
+RUN apt-get update
+RUN apt-get install curl software-properties-common -y
+
+RUN add-apt-repository ppa:longsleep/golang-backports \
+  && apt-get update \
+  && apt-get install golang-go gcc git bzr jq pkg-config mesa-opencl-icd ocl-icd-opencl-dev cargo llvm clang opencl-headers -y
+
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y
+RUN echo "export PATH=~/.cargo/bin:$PATH" >> ~/.bashrc
+
+RUN mkdir -p /storage \
+  && mkdir -p /storage/lotuswork/lotusstorage \
   && mkdir -p /storage/lotuswork/lotus \
   && mkdir -p /storage/lotuswork/lotusworker \
   && mkdir -p /storage/filecoin-proof-parameters \
@@ -13,19 +24,22 @@ ENV FIL_PROOFS_PARAMETER_CACHE /storage/filecoin-proof-parameters
 ENV IPFS_GATEWAY https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/
 ENV TMPDIR /storage/lotuswork/tmpdir
 
-RUN apt update \
-  && apt install vim iproute2 software-properties-common -y
-
-RUN add-apt-repository ppa:longsleep/golang-backports \
-  && apt update \
-  && apt install golang-go gcc git bzr jq pkg-config mesa-opencl-icd ocl-icd-opencl-dev cargo llvm clang opencl-headers -y
-
-RUN curl https://sh.rustup.rs -sSf | sh
-
-RUN git clone https://github.com/filecoin-project/lotus.git
+RUN git clone -b interopnet https://github.com/filecoin-project/lotus.git
 
 RUN cd lotus/ \
   && make clean && make all \
+  && make bench \
   && make install
 
-SHELL ["/bin/bash"]
+RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
+  && sed -i "s/security.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
+  && rm -f /etc/apt/sources.list.d/*
+
+COPY lotus/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+ENV HOME /lotus
+WORKDIR /lotus
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/bin/bash"]
