@@ -1,6 +1,7 @@
 #!/bin/bash
 
-: ${CUSTOM_GPU:="GeForce RTX 2080 Ti:4352"}
+: ${BELLMAN_CUSTOM_GPU:="GeForce RTX 2080 Ti:4352"}
+: ${FIL_PROOFS_MAXIMIZE_CACHING:=1}
 : ${ADDRESS:="127.0.0.1:2345"}
 : ${daemon:="seal-worker"}
 
@@ -10,7 +11,8 @@ mkdir -p /storage/lotuswork/lotusstorage \
   && mkdir -p /storage/filecoin-proof-parameters \
   && mkdir -p /storage/lotuswork/tmpdir
 
-export BELLMAN_CUSTOM_GPU=${CUSTOM_GPU}
+export BELLMAN_CUSTOM_GPU=${BELLMAN_CUSTOM_GPU}
+export FIL_PROOFS_MAXIMIZE_CACHING=${FIL_PROOFS_MAXIMIZE_CACHING=1}
 
 if [ x"$daemon" == x"seal-worker" ];then
   lotus-seal-worker run --address ${ADDRESS}
