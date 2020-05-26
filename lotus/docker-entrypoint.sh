@@ -14,9 +14,9 @@ export BELLMAN_CUSTOM_GPU=${CUSTOM_GPU}
 
 if [ x"$daemon" == x"seal-worker" ];then
   lotus-seal-worker run --address ${ADDRESS}
-elif [x"$dameon" == x"miner-storage" ];then
+elif [ x"$dameon" == x"miner-storage" ];then
   lotus-storage-miner run
-elif [x"$daemon" == x"dev"];then
+elif [ x"$daemon" == x"dev" ];then
   while :
   do
     sleep 3600
