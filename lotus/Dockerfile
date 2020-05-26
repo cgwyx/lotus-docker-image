@@ -24,10 +24,9 @@ ENV FIL_PROOFS_PARAMETER_CACHE /storage/filecoin-proof-parameters
 ENV IPFS_GATEWAY https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/
 ENV TMPDIR /storage/lotuswork/tmpdir
 
-RUN wget https://github.com/filecoin-project/lotus/archive/v0.3.0.tar.gz \
-  && tar -xvf v0.3.0.tar.gz
+RUN git clone -b v0.3.0 https://github.com/filecoin-project/lotus.git
 
-RUN cd lotus-0.3.0/ \
+RUN cd lotus/ \
   && make clean && make all \
   && make bench \
   && make install
