@@ -17,9 +17,11 @@ if [ x"$daemon" == x"seal-worker" ];then
 elif [x"$dameon" == x"miner-storage" ];then
   lotus-storage-miner run
 elif [x"$daemon" == x"dev"];then
-while :
-do
+  while :
+  do
     sleep 3600
-done
+  done
+else
+  exit 1
 fi
 
