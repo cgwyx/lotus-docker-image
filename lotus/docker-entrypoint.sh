@@ -4,7 +4,7 @@
 : ${FIL_PROOFS_MAXIMIZE_CACHING:=1}
 : ${ADDRESS:="127.0.0.1:2345"}
 : ${daemon:="seal-worker"}
-: ${options:="--no-local-storage=true"}
+: ${options:="--no-local-storage=false"}
 
 mkdir -p /storage/lotuswork/lotusstorage \
   && mkdir -p /storage/lotuswork/lotus \
@@ -13,7 +13,7 @@ mkdir -p /storage/lotuswork/lotusstorage \
   && mkdir -p /storage/lotuswork/tmpdir
 
 export BELLMAN_CUSTOM_GPU=${BELLMAN_CUSTOM_GPU}
-export FIL_PROOFS_MAXIMIZE_CACHING=${FIL_PROOFS_MAXIMIZE_CACHING=1}
+export FIL_PROOFS_MAXIMIZE_CACHING=${FIL_PROOFS_MAXIMIZE_CACHING}
 
 if [ x"$daemon" == x"seal-worker" ];then
   lotus-seal-worker run --address ${ADDRESS} ${options}
