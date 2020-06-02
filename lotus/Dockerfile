@@ -24,10 +24,10 @@ ENV FIL_PROOFS_PARAMETER_CACHE /storage/filecoin-proof-parameters
 ENV IPFS_GATEWAY https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/
 ENV TMPDIR /storage/lotuswork/tmpdir
 
-RUN git clone -b v0.3.0 https://github.com/filecoin-project/lotus.git
+RUN git clone https://github.com/filecoin-project/lotus.git
 
 RUN cd lotus/ \
-  && FFI_BUILD_FROM_SOURCE=1 make clean all bench \
+  && make clean all bench \
   && make install
 
 RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
@@ -37,7 +37,6 @@ RUN sed -i "s/archive.ubuntu.com/mirrors.aliyun.com/g" /etc/apt/sources.list \
 COPY lotus/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-ENV HOME /lotus
 WORKDIR /lotus
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
