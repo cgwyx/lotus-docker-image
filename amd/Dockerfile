@@ -7,6 +7,7 @@ ENV GOPROXY=https://goproxy.cn
 COPY cargo.config ~/.cargo/config
 
 RUN cd /lotus \
+  && FFI_BUILD_FROM_SOURCE=1 RUSTFLAGS='-C target-cpu=native' make clean deps \
   && FFI_BUILD_FROM_SOURCE=1 RUSTFLAGS='-C target-cpu=native' make clean all bench \
   && make install
 
