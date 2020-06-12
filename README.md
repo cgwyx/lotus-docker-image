@@ -38,5 +38,5 @@ Build Images
 ```
 git clone https://github.com/mslovy/lotus-docker-image.git
 cd lotus-docker-image
-docker build -t {{ local_register_address }}:5000/lotus:amd -f amd/Dockerfile .
+docker build --build-arg HTTPS_PROXY=http://{{ proxy_address }}:1077 --build-arg HTTP_PROXY=http://{{ proxy_address }}:1077 -t {{ local_register_address }}:5000/lotus:amd -f amd/Dockerfile .
 ```
