@@ -24,7 +24,7 @@ ENV FIL_PROOFS_PARAMETER_CACHE /storage/filecoin-proof-parameters
 ENV IPFS_GATEWAY https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/
 ENV TMPDIR /storage/lotuswork/tmpdir
 
-RUN git clone -b v0.3.2 https://github.com/filecoin-project/lotus.git
+RUN git clone https://github.com/filecoin-project/lotus.git
 
 RUN cd lotus/ \
   && go mod edit -replace github.com/filecoin-project/sector-storage=github.com/mslovy/sector-storage@v0.0.1 \

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-: ${TYPE:="interopnet"}
+: ${TYPE:="release"}
 : ${AMD:="true"}
 : ${ADDRESS:="127.0.0.1"}
 

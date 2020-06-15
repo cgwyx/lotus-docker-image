@@ -20,6 +20,8 @@ if [ x"$daemon" == x"seal-worker" ];then
   lotus-seal-worker run --address ${ADDRESS} ${options}
 elif [ x"$daemon" == x"storage-miner" ];then
   lotus-storage-miner run ${options}
+elif [ x"$daemon" == x"lotus" ];then
+  lotus daemon ${options}
 elif [ x"$daemon" == x"cmd" ];then
   ${cmd_cli} ${options}
 elif [ x"$daemon" == x"dev" ];then
